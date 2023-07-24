@@ -11,9 +11,9 @@ class AmazonSearchProductSpider(scrapy.Spider):
         }
 
     def start_requests(self):
-        keyword_list = ['ipad']
+        keyword_list = ['bags']
         for keyword in keyword_list:
-            amazon_search_url = f'https://www.amazon.com/s?k={keyword}&page=1'
+            amazon_search_url = f'https://www.amazon.in/s?k=bags&crid=2M096C61O4MLT&qid=1653308124&sprefix=ba%2Caps%2C283&ref=sr_pg_1?k={keyword}&page=1'
             yield scrapy.Request(url=amazon_search_url, callback=self.discover_product_urls, meta={'keyword': keyword, 'page': 1})
 
     def discover_product_urls(self, response):
