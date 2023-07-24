@@ -58,3 +58,8 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Max Concurrency On ScrapeOps Proxy Free Plan is 1 thread
 CONCURRENT_REQUESTS = 1
+
+custom_settings = {
+        'FEEDS': { 'data/%(name)s_%(time)s.csv': { 'format': 'csv',}}
+        }
+
