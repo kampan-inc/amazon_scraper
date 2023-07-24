@@ -1,5 +1,5 @@
-# amazon-python-scrapy-scraper
-Python Scrapy spiders that scrape product data and reviews from [Amazon.com](https://www.amazon.com/). 
+# amazon_scraper
+Python Scrapy spiders that scrape product data and reviews from [Amazon.in] 
 
 This Scrapy project contains 3 seperate spiders:
 
@@ -10,15 +10,8 @@ This Scrapy project contains 3 seperate spiders:
 | `amazon_reviews` |  Scrapes all Amazon product reviews from a list of product ASINs. | 
 
 
-The following articles go through in detail how these Amazon spiders were developed, which you can use to understand the spiders and edit them for your own use case.
-
-- [Python Scrapy: Build A Amazon.com Product Scraper](https://scrapeops.io/python-scrapy-playbook/python-scrapy-amazon-product-scraper/)
-- [Python Scrapy: Build A Amazon.com Product Reviews Scraper](https://scrapeops.io/python-scrapy-playbook/python-scrapy-amazon-reviews-scraper/)
 
 ## ScrapeOps Proxy
-This Amazon spider uses [ScrapeOps Proxy](https://scrapeops.io/proxy-aggregator/) as the proxy solution. ScrapeOps has a free plan that allows you to make up to 1,000 requests per month which makes it ideal for the development phase, but can be easily scaled up to millions of pages per month if needs be.
-
-You can [sign up for a free API key here](https://scrapeops.io/app/register/main).
 
 To use the ScrapeOps Proxy you need to first install the proxy middleware:
 
@@ -45,10 +38,6 @@ DOWNLOADER_MIDDLEWARES = {
 
 ## ScrapeOps Monitoring
 To monitor our scraper, this spider uses the [ScrapeOps Monitor](https://scrapeops.io/monitoring-scheduling/), a free monitoring tool specifically designed for web scraping. 
-
-**Live demo here:** [ScrapeOps Demo](https://scrapeops.io/app/login/demo) 
-
-![ScrapeOps Dashboard](https://scrapeops.io/assets/images/scrapeops-promo-286a59166d9f41db1c195f619aa36a06.png)
 
 To use the ScrapeOps Proxy you need to first install the monitoring SDK:
 
@@ -100,9 +89,9 @@ To run the Amazon spiders you should first set the search query parameters you w
 ```python
 
 def start_requests(self):
-    keyword_list = ['ipad']
+    keyword_list = ['bags']
     for keyword in keyword_list:
-        amazon_search_url = f'https://www.amazon.com/s?k={keyword}&page=1'
+        amazon_search_url = f'https://www.amazon.in/s?k={keyword}&page=1'
         yield scrapy.Request(url=amazon_search_url, callback=self.parse_search_results, meta={'keyword': keyword, 'page': 1})
 
 ```
@@ -112,27 +101,6 @@ Then to run the spider, enter one of the following command:
 ```
 
 scrapy crawl amazon_search_product
-
-```
-
-
-## Customizing The Amazon Product Scraper
-The following are instructions on how to modify the Amazon Product scraper for your particular use case.
-
-Check out this [guide to building a Amazon.com Scrapy product spider](https://scrapeops.io/python-scrapy-playbook/python-scrapy-amazon-product-scraper/) if you need any more information.
-
-### Configuring Amazon Product Search
-To change the query parameters for the product search just change the keywords and locations in the `keyword_list` lists in the spider.
-
-For example:
-
-```python
-
-def start_requests(self):
-    keyword_list = ['ipad', 'laptops']
-    for keyword in keyword_list:
-        amazon_search_url = f'https://www.amazon.com/s?k={keyword}&page=1'
-        yield scrapy.Request(url=amazon_search_url, callback=self.parse_search_results, meta={'keyword': keyword, 'page': 1})
 
 ```
 
@@ -161,21 +129,10 @@ def parse_product_data(self, response):
     }
 
 ```
-
-### Speeding Up The Crawl
-The spiders are set to only use 1 concurrent thread in the settings.py file as the ScrapeOps Free Proxy Plan only gives you 1 concurrent thread.
-
-However, if you upgrade to a paid ScrapeOps Proxy plan you will have more concurrent threads. Then you can increase the concurrency limit in your scraper by updating the `CONCURRENT_REQUESTS` value in your ``settings.py`` file.
-
-```python
-# settings.py
-
-CONCURRENT_REQUESTS = 10
-
 ```
 
 ### Storing Data
-The spiders are set to save the scraped data into a CSV file and store it in a data folder using [Scrapy's Feed Export functionality](https://docs.scrapy.org/en/latest/topics/feed-exports.html).
+The spiders are set to save the scraped data into a CSV file and store it in a data folder using [Scrapy's Feed Export functionality]
 
 ```python
 
@@ -185,14 +142,6 @@ custom_settings = {
 
 ```
 
-If you would like to save your CSV files to a AWS S3 bucket then check out our [Saving CSV/JSON Files to Amazon AWS S3 Bucket guide here](https://scrapeops.io//python-scrapy-playbook/scrapy-save-aws-s3)
-
-Or if you would like to save your data to another type of database then be sure to check out these guides:
-
-- [Saving Data to JSON](https://scrapeops.io/python-scrapy-playbook/scrapy-save-json-files)
-- [Saving Data to SQLite Database](https://scrapeops.io/python-scrapy-playbook/scrapy-save-data-sqlite)
-- [Saving Data to MySQL Database](https://scrapeops.io/python-scrapy-playbook/scrapy-save-data-mysql)
-- [Saving Data to Postgres Database](https://scrapeops.io/python-scrapy-playbook/scrapy-save-data-postgres)
 
 ### Deactivating ScrapeOps Proxy & Monitor
 To deactivate the ScrapeOps Proxy & Monitor simply comment out the follow code in your `settings.py` file:
