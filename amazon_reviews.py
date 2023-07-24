@@ -11,7 +11,7 @@ class AmazonReviewsSpider(scrapy.Spider):
     def start_requests(self):
         asin_list = ['B09G9FPHY6']
         for asin in asin_list:
-            amazon_reviews_url = f'https://www.amazon.com/product-reviews/{asin}/'
+            amazon_reviews_url = f'https://www.amazon.in/s?k=bags&crid=2M096C61O4MLT&qid=1653308124&sprefix=ba%2Caps%2C283&ref=sr_pg_1{asin}/'
             yield scrapy.Request(url=amazon_reviews_url, callback=self.parse_reviews, meta={'asin': asin, 'retry_count': 0})
 
 
